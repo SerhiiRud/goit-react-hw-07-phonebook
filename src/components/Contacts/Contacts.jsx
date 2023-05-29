@@ -1,17 +1,30 @@
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { getContacts, getFilter } from 'redux/selectors';
-import { removeContact } from 'redux/contactsSlice';
+import { useEffect } from 'react';
+import {
+  getContacts,
+  getFilter,
+  getIsLoading,
+  getError,
+} from 'redux/selectors';
+import { Loader } from 'components/Loader/Loader';
+import { fetchContacts, removeContact } from 'redux/operations';
 import { Contacts, ContactItem, FormButton } from './Contacts.styled';
 
 export const ContactList = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(getContacts);
+  const isLoading = useSelector(getIsLoading);
+  const error = useSelector(getError);
   const filter = useSelector(getFilter);
 
   const onDelete = id => {
     dispatch(removeContact(id));
   };
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   const getVisibleContacts = (contacts, filter) => {
     return [...contacts].filter(contact =>
@@ -21,16 +34,22 @@ export const ContactList = () => {
 
   const visibleContacts = getVisibleContacts(contacts, filter);
   return (
-    <Contacts>
-      {visibleContacts.map(contact => (
-        <ContactItem key={contact.id}>
-          <span>{contact.name}: </span>
-          <span>{contact.number}</span>
-          <FormButton type="button" onClick={() => onDelete(contact.id)}>
-            Delete
-          </FormButton>
-        </ContactItem>
-      ))}
-    </Contacts>
+    <>
+      {isLoading && <Loader />}
+      {error && <div>{error}</div>}
+      {getVisibleContacts.length > 0 && (
+        <Contacts>
+          {visibleContacts.map(contact => (
+            <ContactItem key={contact.id}>
+              <span>{contact.name}: </span>
+              <span>{contact.number}</span>
+              <FormButton type="button" onClick={() => onDelete(contact.id)}>
+                Delete
+              </FormButton>
+            </ContactItem>
+          ))}
+        </Contacts>
+      )}
+    </>
   );
 };
