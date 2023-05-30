@@ -25,7 +25,7 @@ const handleAddContact = (state, action) => {
 const handleRemoveContact = (state, action) => {
   state.isLoading = false;
   state.error = null;
-  state.items = state.items.filter(contact => contact.id !== action.payload);
+  state.items = state.items.filter(contact => contact.id !== action.payload.id);
 };
 
 const contactsSlice = createSlice({
@@ -35,17 +35,28 @@ const contactsSlice = createSlice({
     isLoading: false,
     error: null,
   },
-  extraReducers: {
-    [fetchContacts.pending]: handlePending,
-    [fetchContacts.fulfilled]: handleFetchContacts,
-    [fetchContacts.rejected]: handleRejected,
-    [addContact.pending]: handlePending,
-    [addContact.fulfilled]: handleAddContact,
-    [addContact.rejected]: handleRejected,
-    [removeContact.pending]: handlePending,
-    [removeContact.fulfilled]: handleRemoveContact,
-    [removeContact.rejected]: handleRejected,
-  },
+  extraReducers: builder =>
+    builder
+      .addCase(fetchContacts.pending, handlePending)
+      .addCase(fetchContacts.fulfilled, handleFetchContacts)
+      .addCase(fetchContacts.rejected, handleRejected)
+      .addCase(addContact.pending, handlePending)
+      .addCase(addContact.fulfilled, handleAddContact)
+      .addCase(addContact.rejected, handleRejected)
+      .addCase(removeContact.pending, handlePending)
+      .addCase(removeContact.fulfilled, handleRemoveContact)
+      .addCase(removeContact.rejected, handleRejected),
+  // extraReducers: {
+  //   [fetchContacts.pending]: handlePending,
+  //   [fetchContacts.fulfilled]: handleFetchContacts,
+  //   [fetchContacts.rejected]: handleRejected,
+  //   [addContact.pending]: handlePending,
+  //   [addContact.fulfilled]: handleAddContact,
+  //   [addContact.rejected]: handleRejected,
+  //   [removeContact.pending]: handlePending,
+  //   [removeContact.fulfilled]: handleRemoveContact,
+  //   [removeContact.rejected]: handleRejected,
+  // },
 });
 
 export const contactsReducer = contactsSlice.reducer;

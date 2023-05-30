@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://646f73a309ff19b120874aab.mockapi.io';
+axios.defaults.baseURL = 'https://6474cb4d7de100807b1bc2dc.mockapi.io';
 
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchAll',
@@ -29,9 +29,9 @@ export const addContact = createAsyncThunk(
 
 export const removeContact = createAsyncThunk(
   'contacts/removeContact',
-  async (contact, thunkAPI) => {
+  async (contactId, thunkAPI) => {
     try {
-      const response = await axios.put(`/contacts/${contact.id}`);
+      const response = await axios.delete(`/contacts/${contactId}`);
       return response.data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e.message);
