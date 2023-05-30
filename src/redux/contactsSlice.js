@@ -46,17 +46,6 @@ const contactsSlice = createSlice({
       .addCase(removeContact.pending, handlePending)
       .addCase(removeContact.fulfilled, handleRemoveContact)
       .addCase(removeContact.rejected, handleRejected),
-  // extraReducers: {
-  //   [fetchContacts.pending]: handlePending,
-  //   [fetchContacts.fulfilled]: handleFetchContacts,
-  //   [fetchContacts.rejected]: handleRejected,
-  //   [addContact.pending]: handlePending,
-  //   [addContact.fulfilled]: handleAddContact,
-  //   [addContact.rejected]: handleRejected,
-  //   [removeContact.pending]: handlePending,
-  //   [removeContact.fulfilled]: handleRemoveContact,
-  //   [removeContact.rejected]: handleRejected,
-  // },
 });
 
 export const contactsReducer = contactsSlice.reducer;

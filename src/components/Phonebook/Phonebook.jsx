@@ -23,7 +23,7 @@ const userSchema = object().shape({
       'Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d`Artagnan'
     )
     .required('This field is required!'),
-  number: string()
+  phone: string()
     .min(5)
     .max(15)
     .trim()
@@ -57,7 +57,7 @@ export const ContactForm = () => {
   return (
     <>
       <Formik
-        initialValues={{ name: '', number: '' }}
+        initialValues={{ name: '', phone: '' }}
         onSubmit={(values, actions) => {
           addContactHandler(values, actions);
         }}
@@ -68,9 +68,9 @@ export const ContactForm = () => {
           <ErrorMessage name="name" component="span" />
           <Field type="text" name="name" />
 
-          <FormField htmlFor="number">Number</FormField>
-          <ErrorMessage name="number" component="span" />
-          <Field type="tel" name="number" />
+          <FormField htmlFor="phone">Number</FormField>
+          <ErrorMessage name="phone" component="span" />
+          <Field type="tel" name="phone" />
 
           <FormButton type="submit">Add contact</FormButton>
         </Form>
